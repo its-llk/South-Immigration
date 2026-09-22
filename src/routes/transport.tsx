@@ -18,7 +18,7 @@ export const Route = createFileRoute("/transport")({
       { property: "og:description", content: "תהליך ההובלה של פינוי הציוד." },
     ],
   }),
-  component: Transport;
+  component: Transport,
 });
 
 function Transport() {
