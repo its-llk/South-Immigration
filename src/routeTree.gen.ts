@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PackingRouteImport } from './routes/packing'
 import { Route as ProcessesRouteImport } from './routes/processes'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackingRoute = PackingRouteImport.update({
+  id: '/packing',
+  path: '/packing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProcessesRoute = ProcessesRouteImport.update({
@@ -25,27 +31,31 @@ const ProcessesRoute = ProcessesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/packing': typeof PackingRoute
   '/processes': typeof ProcessesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/packing': typeof PackingRoute
   '/processes': typeof ProcessesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/packing': typeof PackingRoute
   '/processes': typeof ProcessesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/processes'
+  fullPaths: '/' | '/packing' | '/processes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/processes'
-  id: '__root__' | '/' | '/processes'
+  to: '/' | '/packing' | '/processes'
+  id: '__root__' | '/' | '/packing' | '/processes'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PackingRoute: typeof PackingRoute
   ProcessesRoute: typeof ProcessesRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packing': {
+      id: '/packing'
+      path: '/packing'
+      fullPath: '/packing'
+      preLoaderRoute: typeof PackingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/processes': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PackingRoute: PackingRoute,
   ProcessesRoute: ProcessesRoute,
 }
 export const routeTree = rootRouteImport
